@@ -34,55 +34,53 @@ module.exports = shortcut;
  * @api public
  */
 function shortcut(keys, o, fn) {
-  var keys = keys.split(/ +/);
-  var klen = keys.length;
-  var seq = [];
-  var i = 0;
-  var prev;
+	var keys = keys.split(/ +/);
+	var klen = keys.length;
+	var seq = [];
+	var i = 0;
+	var prev;
 
-  if (2 == arguments.length) {
-    fn = o;
-    o = {};
-  }
-  defaults();
+	if (2 == arguments.length) {
+		fn = o;
+		o = {};
+	}
+	defaults();
 
-  o.el.addEventListener('keydown', keydown);
+	o.el.addEventListener('keydown', keydown);
 
-  function keydown(e) {
-    var key = keys[i++];
-    var code = e.which || e.keyCode;
-    var pressed = vkeys[code];
-    procedure(pressed, e);
-    if ('*' != key && key != pressed) return reset();
-    if (o.ms && prev && new Date - prev > o.ms) return reset();
-    if (o.ms) prev = new Date;
-    var len = seq.push(pressed);
-    if (len != klen) return;
-    reset();
-    fn(e);
-  }
+	function keydown(e) {
+		var key = keys[i++];
+		var code = e.which || e.keyCode;
+		var pressed = vkeys[code];
+		procedure(pressed, e);
+		if ('*' != key && key != pressed) return reset();
+		if (o.ms && prev && new Date - prev > o.ms) return reset();
+		if (o.ms) prev = new Date;
+		var len = seq.push(pressed);
+		if (len != klen) return;
+		reset();
+		fn(e);
+	}
 
-  function defaults() {
-    o.ms = o.ms || 50;
-    o.el = o.el || window;
-    o.preventDefault = o.preventDefault != false;
-    o.stopPropagation = o.stopPropagation != false;
-  }
+	function defaults() {
+		o.ms = o.ms || 1000;
+		o.el = o.el || window;
+	}
 
-  function procedure(pressed, e) {
-    var defined = keys.some(function (key) {
-      return pressed == key;
-    });
-    if (!defined) return;
-    if (o.preventDefault) e.preventDefault();
-    if (o.stopPropagation) e.stopPropagation();
-  }
+	function procedure(pressed, e) {
+		var defined = keys.some(function(key) {
+			return pressed == key;
+		});
+		if (!defined) return;
+		if (o.preventDefault) e.preventDefault();
+		if (o.stopPropagation) e.stopPropagation();
+	}
 
-  function reset() {
-    prev = null;
-    seq = [];
-    i = 0;
-  }
+	function reset() {
+		prev = null;
+		seq = [];
+		i = 0;
+	}
 }
 
 shortcut.vkeys = vkeys;
@@ -91,14 +89,14 @@ shortcut.findCode = vkeys.findCode;
 shortcut.findAllCodes = vkeys.findAllCodes;
 
 shortcut.press = function press(k, el) {
-  var code = vkeys.findCode(k);
-  var el = el || window;
-  var e = document.createEvent('Event');
-  e.initEvent('keydown', true, true);
-  e.keyCode = e.which = code;
-  el.dispatchEvent(e);
-  e = document.createEvent('Event');
-  e.initEvent('keyup', true, true);
-  e.keyCode = e.which = code;
-  el.dispatchEvent(e);
+	var code = vkeys.findCode(k);
+	var el = el || window;
+	var e = document.createEvent('Event');
+	e.initEvent('keydown', true, true);
+	e.keyCode = e.which = code;
+	el.dispatchEvent(e);
+	e = document.createEvent('Event');
+	e.initEvent('keyup', true, true);
+	e.keyCode = e.which = code;
+	el.dispatchEvent(e);
 };

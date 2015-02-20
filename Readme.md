@@ -63,10 +63,10 @@ the callback to be called.
 The following options `options` are optional with the default values:
 ```js
 {
-  ms: 50,                  // 50 milliseconds
+  ms: 1000,                  // 1000 milliseconds
   el: window,              // DOM Element the shortcut is added to.
-  stopPropagation: true,   // no bubbling up the DOM Tree
-  preventDefault: true,    // no default event for the given `keys`.
+  stopPropagation: false,   // no bubbling up the DOM Tree
+  preventDefault: false,    // no default event for the given `keys`.
 };
 ```
 
