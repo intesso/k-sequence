@@ -70,7 +70,7 @@ The following options `options` are optional with the default values:
 
 ### keys
 
-Available keys: [vkeys.js](vkeys.js)
+Available keys: [vkeys.js](https://github.com/intesso/vkeys/blob/master/vkeys.js)
 
 ## test
 
