@@ -94,7 +94,7 @@ Object with {`code` : `key`} pairs.
   254: 'clear'
 }
 ```
-[see](https://github.com/intesso/vkeys/blob/master/vkeys.js)
+see: [vkeys.js](https://github.com/intesso/vkeys/blob/master/vkeys.js)
 
 #### key.getKey(code)
 
