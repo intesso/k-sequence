@@ -13,8 +13,6 @@
   ],
   "license": "MIT",
   "dependencies": {
-  },
-  "devDependencies": {
-    "vkey": "^1.0.0"
+    "vkeys": "^1.0.1"
   }
 }
