@@ -74,18 +74,19 @@ The following options `options` are optional with the default values:
 
 creates a `keydown` event, followed by `keyup` for the given key.
 
+example:
 ```js
 key.press('meta');
 key.press('s', window);
 ```
 #### key.vkeys
 
-Object with {<code> : <key>}
+Object with {`code` : `key`} pairs.
 
 
 #### key.getKey(code)
 
-return the `key` for the given code.
+return the `key` for the given `code`.
 
 #### key.findCode(key)
 
