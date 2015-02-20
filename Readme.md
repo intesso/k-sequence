@@ -27,7 +27,7 @@ key('ctrl s', function (e) {
   console.log('hit:', 'ctrl s');
 });
 
-var el = document.getElementsByName('h1');
+var el = document.getElementsByTagName('h1')[0];
 key('meta e', {
   el: el,
   ms: 1000,
