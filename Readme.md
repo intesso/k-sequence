@@ -101,6 +101,7 @@ returns an Array of `code`'s that match the `key`.
 ## test
 
 ```bash
+npm install -g browserify testling
 npm run test
 ```
 
