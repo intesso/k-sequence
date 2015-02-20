@@ -82,7 +82,7 @@ key.press('s', window);
 #### key.vkeys
 
 Object with {`code` : `key`} pairs.
-```
+```js
 {
   0: 'unk',
   ...
