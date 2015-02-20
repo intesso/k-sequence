@@ -82,21 +82,42 @@ key.press('s', window);
 #### key.vkeys
 
 Object with {`code` : `key`} pairs.
-
+```
+{
+  0: 'unk',
+  ...
+  8: 'backspace',
+  9: 'tab',
+  12: 'clear',
+  13: 'enter',
+  ...
+  254: 'clear'
+}
+```
+[see](https://github.com/intesso/vkeys/blob/master/vkeys.js)
 
 #### key.getKey(code)
 
 return the `key` for the given `code`.
-
+```js
+var key = key.getKey(60);
+assert.equal(key, '<');
+```
 #### key.findCode(key)
 
 returns the first `code` that matches the `key`.
-
+```js
+var code = key.findCode('space');
+assert.equal(code, 32);
+```
 
 #### key.findAllCodes(key)
 
 returns an Array of `code`'s that match the `key`.
-
+```js
+var code = key.findAllCodes('meta');
+// code equals [91, 92, 223, 224]
+```
 
 ## test
 
