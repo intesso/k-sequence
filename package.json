@@ -2,9 +2,12 @@
   "name": "keyboard-shortcut",
   "description": "keyboard shortcut sequences",
   "author": "Andi Neck <andi.neck@intesso.com>",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "main": "index.js",
   "browser": "index.js",
+  "scripts": {
+    "test": "browserify test/test.*.js | testling"
+  },
   "keywords": [
     "keyboard",
     "key",
@@ -13,6 +16,9 @@
   ],
   "license": "MIT",
   "dependencies": {
-    "vkeys": "^1.0.1"
+    "vkeys": "^1.1.0"
+  },
+  "devDependencies": {
+    "tape": "^3.5.0"
   }
 }

@@ -2,7 +2,7 @@
  * dependencies
  */
 
-var vkeys = require('./vkeys');
+var vkeys = require('vkeys');
 
 /**
  * Export `shortcut`
@@ -53,7 +53,6 @@ function shortcut(keys, o, fn) {
     var code = e.which || e.keyCode;
     var pressed = vkeys[code];
     procedure(pressed, e);
-    console.log('keys', keys, 'pressed', pressed, 'code', code);
     if ('*' != key && key != pressed) return reset();
     if (o.ms && prev && new Date - prev > o.ms) return reset();
     if (o.ms) prev = new Date;
@@ -64,7 +63,7 @@ function shortcut(keys, o, fn) {
   }
 
   function defaults() {
-    o.ms = o.ms || 500;
+    o.ms = o.ms || 50;
     o.el = o.el || window;
     o.preventDefault = o.preventDefault != false;
     o.stopPropagation = o.stopPropagation != false;
@@ -85,3 +84,21 @@ function shortcut(keys, o, fn) {
     i = 0;
   }
 }
+
+shortcut.vkeys = vkeys;
+shortcut.getKey = vkeys.getKey;
+shortcut.findCode = vkeys.findCode;
+shortcut.findAllCodes = vkeys.findAllCodes;
+
+shortcut.press = function press(k, el) {
+  var code = vkeys.findCode(k);
+  var el = el || window;
+  var e = document.createEvent('Event');
+  e.initEvent('keydown', true, true);
+  e.keyCode = e.which = code;
+  el.dispatchEvent(e);
+  e = document.createEvent('Event');
+  e.initEvent('keyup', true, true);
+  e.keyCode = e.which = code;
+  el.dispatchEvent(e);
+};
