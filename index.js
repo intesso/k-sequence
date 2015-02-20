@@ -1,59 +1,87 @@
-
 /**
  * dependencies
  */
 
-var keycode = require('keycode');
+var vkeys = require('./vkeys');
 
 /**
- * Export `sequence`
+ * Export `shortcut`
  */
 
-module.exports = sequence;
+module.exports = shortcut;
 
 /**
- * Create sequence fn with `keys`.
- * optional `ms` which defaults
- * to `500ms` and `fn`.
+ * Create keyboard shortcut sequence with the `keys` like e.g. 'ctrl s'.
+ * The following options `o` are optional with the default values:
+ *
+ *  {
+ *     ms: 500,                 // 500 milliseconds
+ *     el: window,              // DOM Element the shortcut is added to.
+ *     stopPropagation: true,   // no bubbling up the DOM Tree
+ *     preventDefault: true,    // no default event for the given `keys`.
+ *  };
  *
  * Example:
+ *     var shortcut = require('keyboard-shortcut');
  *
- *      seq = sequence('a b c', fn);
- *      el.addEventListener('keydown', seq);
+ *     shortcut('a b c', function(e) {
+ *       console.log('hit:', 'a b c');
+ *     });
  *
  * @param {String} keys
- * @param {Number} ms
- * @param {Function} fn
- * @return {Function}
+ * @param {Object} o options
+ * @param {Function} fn callback function with the keydown event.
  * @api public
  */
-
-function sequence(keys, ms, fn){
-  var codes = keys.split(/ +/).map(keycode)
-    , clen = codes.length
-    , seq = []
-    , i = 0
-    , prev;
+function shortcut(keys, o, fn) {
+  var keys = keys.split(/ +/);
+  var klen = keys.length;
+  var seq = [];
+  var i = 0;
+  var prev;
 
   if (2 == arguments.length) {
-    fn = ms;
-    ms = 500;
+    fn = o;
+    o = {};
   }
+  defaults();
 
-  return function(e){
-    var code = codes[i++];
-    if (42 != code && code != e.which) return reset();
-    if (prev && new Date - prev > ms) return reset();
-    var len = seq.push(e.which);
-    prev = new Date;
-    if (len != clen) return;
+  o.el.addEventListener('keydown', keydown);
+
+  function keydown(e) {
+    var key = keys[i++];
+    var code = e.which || e.keyCode;
+    var pressed = vkeys[code];
+    procedure(pressed, e);
+    console.log('keys', keys, 'pressed', pressed, 'code', code);
+    if ('*' != key && key != pressed) return reset();
+    if (o.ms && prev && new Date - prev > o.ms) return reset();
+    if (o.ms) prev = new Date;
+    var len = seq.push(pressed);
+    if (len != klen) return;
     reset();
     fn(e);
-  };
+  }
 
-  function reset(){
+  function defaults() {
+    o.ms = o.ms || 500;
+    o.el = o.el || window;
+    o.preventDefault = o.preventDefault != false;
+    o.stopPropagation = o.stopPropagation != false;
+  }
+
+  function procedure(pressed, e) {
+    var defined = keys.some(function (key) {
+      return pressed == key;
+    });
+    if (!defined) return;
+    if (o.preventDefault) e.preventDefault();
+    if (o.stopPropagation) e.stopPropagation();
+  }
+
+  function reset() {
     prev = null;
     seq = [];
     i = 0;
   }
-};
+}
